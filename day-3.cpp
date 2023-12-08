@@ -75,7 +75,7 @@ int main() {
 
             // for(int k = start - 1; k < j+1; k++) {
                 // cout << "k: " << k << " ";
-                // if(isSymbol(i-1, k, originalNum, gears, data) || isSymbol(i+1, k, originalNum, data)){
+                // if(isSymbol(i-1, k, data) || isSymbol(i+1, k, data)){
                     // cout << "candidate: " << originalNum << endl;
                     // sum += originalNum;
                     // break;
