@@ -45,12 +45,11 @@ int getTheNextValue(const vector<int> &history) {
 
   while (true) {
     bool allZeros = true;
-    vector<int> newDifferences;
+    vector<int> newDifferences(tempHistory.size() - 1);
 
     for (int i = 0; i < tempHistory.size() - 1; i++) {
-      int diff = tempHistory[i + 1] - tempHistory[i];
-      newDifferences.push_back(diff);
-      if (diff != 0) {
+      newDifferences[i] = tempHistory[i + 1] - tempHistory[i];
+      if (newDifferences[i] != 0) {
         allZeros = false;
       }
     }
