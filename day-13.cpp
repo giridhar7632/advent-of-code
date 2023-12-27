@@ -32,12 +32,14 @@ vector<string> transpose(const vector<string> &pattern) {
   return transposed;
 }
 
-int reflectionSummary(const vector<string> &pattern) {
+// reflectionSummary for part-1 | returns a number
+pair<int, int> summary(const vector<string> &pattern,
+                       pair<int, int> avoid = make_pair(-1, -1)) {
   int n = pattern.size(), m = pattern[0].length();
 
   int horizontal = -1;
   for (int i = 0; i < n - 1; ++i) {
-    if (isHorizontalReflection(pattern, i)) {
+    if (i != avoid.first && isHorizontalReflection(pattern, i)) {
       horizontal = i;
       break;
     }
@@ -46,15 +48,42 @@ int reflectionSummary(const vector<string> &pattern) {
   int vertical = -1;
   vector<string> transposed = transpose(pattern);
   for (int j = 0; j < m - 1; ++j) {
-    if (isHorizontalReflection(transposed, j)) {
+    if (j != avoid.second && isHorizontalReflection(transposed, j)) {
       vertical = j;
       break;
     }
   }
 
   assert(vertical == -1 || horizontal == -1); // Ensure only one reflection
-  return vertical + 1 + 100 * (horizontal + 1);
+  return make_pair(horizontal, vertical);
 }
+
+// start: part-2
+int reflectionSummary(const vector<string> &pattern) {
+  int n = pattern.size(), m = pattern[0].length();
+  pair<int, int> oldSummary = summary(pattern);
+
+  int newVal;
+
+  for (int i = 0; i < n; ++i) {
+    for (int j = 0; j < m; ++j) {
+      vector<string> newPattern = pattern;
+      newPattern[i][j] = pattern[i][j] == '#' ? '.' : '#';
+
+      pair<int, int> newSummary = summary(newPattern, oldSummary);
+      if (newSummary != oldSummary && newSummary != make_pair(-1, -1)) {
+        if (newSummary.first != -1) {
+          newVal = (newSummary.first + 1) * 100;
+        } else {
+          newVal = newSummary.second + 1;
+        }
+      }
+    }
+  }
+
+  return newVal;
+}
+// end
 
 void loadData() {
   string line;
