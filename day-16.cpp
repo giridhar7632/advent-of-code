@@ -22,11 +22,10 @@ void loadData() {
   }
 }
 
-int main() {
-  loadData();
+int getTiles(vector<int> start) {
   set<vector<int>> visited;
   queue<vector<int>> q;
-  q.push({0, -1, 0, 1});
+  q.push(start);
 
   while (!q.empty()) {
     vector<int> state = q.front();
@@ -83,6 +82,20 @@ int main() {
     coords.insert({state[0], state[1]});
   }
 
-  cout << coords.size() << endl;
+  return coords.size();
+}
+
+int main() {
+  loadData();
+  int maxVal = 0;
+  for (int i = 0; i < data.size(); i++) {
+    maxVal = max(maxVal, getTiles({i, -1, 0, 1}));
+    maxVal = max(maxVal, getTiles({i, int(data[0].length()), 0, -1}));
+  }
+  for (int j = 0; j < data.size(); j++) {
+    maxVal = max(maxVal, getTiles({-1, j, 1, 0}));
+    maxVal = max(maxVal, getTiles({int(data.size()), j, -1, 0}));
+  }
+  cout << "grand total: " << maxVal << endl;
   return 0;
 }
