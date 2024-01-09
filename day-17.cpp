@@ -30,6 +30,10 @@ int main() {
   loadData();
   set<vector<int>> seen;
 
+  // priority_queue<pair<int, int>, vector<pair<int, int>>,
+  //                greater<pair<int, int>>>
+  //     pq;
+
   priority_queue<vector<int>, vector<vector<int>>, greater<vector<int>>> pq;
   pq.push({0, 0, 0, 0, 0, 0});
 
@@ -52,24 +56,24 @@ int main() {
     }
 
     seen.insert({x, y, dx, dy, n});
-    if (n < 3 && (dx != 0 || dy != 0)) {
+    if (n < 10 && (dx != 0 || dy != 0)) {
       int nx = x + dx, ny = y + dy;
       if (0 <= nx && nx < data.size() && 0 <= ny && ny < data[0].length()) {
         int newHl = data[nx][ny] - '0';
-        cout << "seen" << endl;
         pq.push({hl + newHl, nx, ny, dx, dy, n + 1});
       }
     }
 
-    for (pair<int, int> dir :
-         vector<pair<int, int>>{{0, 1}, {1, 0}, {0, -1}, {-1, 0}}) {
-      int ndx = dir.first, ndy = dir.second;
-      if (dir != make_pair(dx, dy) && dir != make_pair(-dx, -dy)) {
-        int nx = x + ndx, ny = y + ndy;
-        if (0 <= nx && nx < data.size() && 0 <= ny && ny < data[0].length()) {
-          int newHl = data[nx][ny] - '0';
-          cout << "added" << endl;
-          pq.push({hl + newHl, nx, ny, ndx, ndy, 1});
+    if (n >= 4 || (dx == 0 && dy == 0)) {
+      for (pair<int, int> dir :
+           vector<pair<int, int>>{{0, 1}, {1, 0}, {0, -1}, {-1, 0}}) {
+        int ndx = dir.first, ndy = dir.second;
+        if (dir != make_pair(dx, dy) && dir != make_pair(-dx, -dy)) {
+          int nx = x + ndx, ny = y + ndy;
+          if (0 <= nx && nx < data.size() && 0 <= ny && ny < data[0].length()) {
+            int newHl = data[nx][ny] - '0';
+            pq.push({hl + newHl, nx, ny, ndx, ndy, 1});
+          }
         }
       }
     }
