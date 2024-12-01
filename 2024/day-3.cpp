@@ -12,7 +12,10 @@ vector<string> loadData() {
     if (ip.is_open()) {
 
         while (getline(ip, line)) {
-            data.push_back(line);
+            string tmp;
+            while(getline(line, tmp, ' ')) {
+
+            }
         }
 
         ip.close();
