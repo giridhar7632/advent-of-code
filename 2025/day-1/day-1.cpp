@@ -7,6 +7,9 @@
 
 using namespace std;
 
+vector<int> left;
+vector<int> right;
+
 void merge(vector<int>& arr, int left, int mid, int right) {
     int n1 = mid - left + 1;
     int n2 = right - mid;
@@ -54,10 +57,10 @@ void mergeSort(vector<int>& arr, int left, int right) {
     }
 }
 
-int main() {
+void loadData() {
     string line;
     vector<int> left, right;
-    ifstream ip("ip.txt");
+    ifstream ip("input.txt");
 
     if (ip.is_open()) {
         while (getline(ip, line)) {
@@ -72,6 +75,10 @@ int main() {
 
         ip.close();
     }
+}
+
+int main() {
+    loadData();
 
     mergeSort(left, 0, left.size() - 1);
     mergeSort(right, 0, right.size() - 1);
@@ -81,7 +88,7 @@ int main() {
         sum += abs(left[i] - right[i]);
     }
 
-    cout << "sum: " << sum << endl; // 2756096
+    cout << "sum: " << sum << endl;
 
     // part 2
     unordered_map<int, int> countMap;
@@ -96,7 +103,7 @@ int main() {
         }
     }
 
-    cout << "similarityScore: " << similarityScore << endl; // 23117829
+    cout << "similarityScore: " << similarityScore << endl;
 
     return 0;
 }
