@@ -3,30 +3,41 @@
 #include <sstream>
 #include <string>
 #include <vector>
+#include <regex>
 
 using namespace std;
-vector<string> data;
+string data;
 
-vector<string> loadData() {
-  string line;
+void loadData() {
+  string line = "";
   ifstream ip("ip.txt");
   if (ip.is_open()) {
 
     while (getline(ip, line)) {
-      data.push_back(line);
+      data += line;
     }
 
     ip.close();
   }
-
-  return data;
 }
 
 int main() {
   loadData();
-  int sum = 0;
 
-  cout << "grand total: " << sum;
+  long int sum = 0;
+  regex mulRegex("mul\\((\\d+),\\s*(\\d+)\\)");
+  smatch matches;
 
+  auto begin = sregex_iterator(data.begin(), data.end(), mulRegex);
+  auto end = sregex_iterator();
+
+  for (sregex_iterator i = begin; i != end; ++i) {
+    matches = *i;
+    int a = stoi(matches[1].str());
+    int b = stoi(matches[2].str());
+    sum += a * b;
+  }
+
+  cout << sum << endl;
   return 0;
 }
